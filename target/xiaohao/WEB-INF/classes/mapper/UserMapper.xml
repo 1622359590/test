@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoma.dao.UserMapper">
+<!--    查询方法-->
+    <select id="selectAll" resultType="com.xiaoma.pojo.User">
+       select id,name,pwd from tb_user;
+    </select>
+<!--    //根据id查询-->
+    <select id="selectbyId" resultType="com.xiaoma.pojo.User" parameterType="java.lang.String">
+            SELECT * FROM tb_user WHERE name LIKE CONCAT('%', #{name},'%')
+    </select>
+    <select id="selectId" resultType="com.xiaoma.pojo.User" parameterType="java.lang.Integer">
+            SELECT * FROM tb_user WHERE id=#{id}
+    </select>
+<!--    //删除-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        delete from tb_user where id=#{id}
+    </delete>
+<!--    新增-->
+    <insert id="add" parameterType="com.xiaoma.pojo.User">
+        insert into tb_user(name,pwd) values(#{name},#{pwd})
+    </insert>
+    <!--    修改-->
+    <update id="update" parameterType="com.xiaoma.pojo.User">
+        update tb_user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="#{name!=null}">name=#{name},</if>
+            <if test="#{pwd!=null}">pwd=#{pwd},</if>
+        </trim>
+        where id=#{id};
+    </update>
+</mapper>
